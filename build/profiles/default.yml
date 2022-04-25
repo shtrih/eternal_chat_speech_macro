@@ -1,0 +1,90 @@
+# Это пример профиля для тёмного эльфа мужчины. Для других рас некоторые команды из этого профиля могут не работать.
+
+# Хоткеи в соответствии с https://github.com/MarinX/keylogger/blob/master/keymapper.go
+chat_hotkey: "Y"
+# Список фраз: https://docs.google.com/spreadsheets/d/1a-kLlAAe6eynLPw-KmTx96XaQDKem4vfR81NInZiOcc/edit?usp=sharing
+phrases:
+  - comment: "Мутсера?"
+    # Хоткеи строго в соответствии с https://github.com/MarinX/keylogger/blob/master/keymapper.go
+    hotkeys: ["L_ALT", "1"]
+    # Одно из значений: attack flee, follower, hello, hit, idle, intruder, oppose, service, thief, uniform, ord_hello, ord_intruder, ord_idle, ord_attack, tb_idle, tb_hello, bm_idle, bm_hello, bm_flee, bm_attack
+    type: hello
+    # Номер фразы
+    index: 119
+  - comment: "Как вам Балмора?"
+    hotkeys: ["L_ALT", "2"]
+    type: hello
+    index: 138
+  - comment: "Я тепло приветствую вас."
+    hotkeys: ["L_ALT", "3"]
+    type: hello
+    index: 217
+  - comment: "Под этим солнцем и небом мы тепло приветствуем тебя."
+    hotkeys: ["L_ALT", "4"]
+    type: hello
+    index: 171
+  - comment: "Привет."
+    hotkeys: ["L_ALT", "5"]
+    type: hello
+    index: 181
+  - comment: "Не знаю, с чего и начать. Такая честь встретить вас!"
+    hotkeys: ["L_ALT", "6"]
+    type: hello
+    index: 222
+  - comment: "Добро пожаловать. О вас уже легенды складывают. Прошу вас, говорите."
+    hotkeys: ["L_ALT", "7"]
+    type: hello
+    index: 222
+  - comment: "Давайте скорее, я не могу целый день тут торчать."
+    hotkeys: ["L_ALT", "8"]
+    type: hello
+    index: 92
+  - comment: "Не сегодня!"
+    hotkeys: ["L_ALT", "9"]
+    type: hello
+    index: 31
+  - comment: "А... а... А... ПППЧХИИИ!"
+    hotkeys: ["L_ALT", "0"]
+    type: bm_idle
+    index: 3
+
+  - comment: "[кашляет]"
+    hotkeys: ["R_ALT", "1"]
+    type: idle
+    index: 1
+  - comment: "[тихий шепот]"
+    hotkeys: ["R_ALT", "2"]
+    type: idle
+    index: 4
+  - comment: "Я чувствую, что кто-то за мной наблюдает."
+    hotkeys: ["R_ALT", "3"]
+    type: idle
+    index: 6
+  - comment: "Трое Богов, Одна Истинная Вера."
+    hotkeys: ["R_ALT", "4"]
+    type: ord_idle
+    index: 3
+  - comment: "Убью этого гуара. Этим ботинкам все равно конец."
+    hotkeys: ["R_ALT", "5"]
+    type: idle
+    index: 9
+  - comment: "Гражданин."
+    hotkeys: ["R_ALT", "6"]
+    type: ord_hello
+    index: 12
+  - comment: "Зачем идти пешком, когда можно ехать верхом?"
+    hotkeys: ["R_ALT", "7"]
+    type: hello
+    index: 132
+  - comment: "Не хочу, чтобы нас видели вместе"
+    hotkeys: ["R_ALT", "8"]
+    type: hello
+    index: 19
+  - comment: "Быстрее. У меня мало времени."
+    hotkeys: ["R_ALT", "9"]
+    type: hello
+    index: 86
+  - comment: "Мы следим за тобой, ничтожество!"
+    hotkeys: ["R_ALT", "0"]
+    type: ord_hello
+    index: 3

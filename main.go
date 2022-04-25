@@ -1,14 +1,31 @@
 package main
 
 import (
+	"eternalChatMacro/config"
 	"eternalChatMacro/keyboard"
+	"flag"
 	"github.com/MarinX/keylogger"
 	log "github.com/sirupsen/logrus"
 )
 
+const Version = "1.0.0"
+
 var wait bool
+var conf *config.Config
 
 func main() {
+	log.Info("Eternal Chat Speech Macro ver. ", Version)
+
+	configName := flag.String("c", "default", "Название файла конфигурации без расширения")
+	logLevel := flag.String("log", "info", "Уровень логирования (debug, info, warn, error)")
+	flag.Parse()
+
+	level, err := log.ParseLevel(*logLevel)
+	if err != nil {
+		log.Error(err)
+	}
+	log.SetLevel(level)
+
 	// find keyboard device, does not require a root permission
 	kbd := keylogger.FindKeyboardDevice()
 
@@ -30,8 +47,9 @@ func main() {
 	events := k.Read()
 	watcher := keyboard.NewWatcher()
 
-	handlers := GetHandlers()
-	printInfo(handlers)
+	conf = config.Init(*configName)
+	log.WithField("Chat Key", conf.ChatHotkey).Info()
+	printInfo(conf.Phrases)
 
 	// range of events
 	for e := range events {
@@ -43,26 +61,26 @@ func main() {
 
 			// if the state of key is pressed
 			if e.KeyPress() {
-				log.Debug("[event] press key ", e.KeyString())
+				log.WithField("Key", e.KeyString()).Debug("[event] press key")
 
 				watcher.SetState(key, keyboard.Down)
 
-				for _, h := range handlers {
+				for _, h := range conf.Phrases {
 					combo := true
-					for _, comboKey := range h.Keys {
-						combo = combo && watcher.Down(comboKey)
+					for _, comboKey := range h.Hotkeys {
+						combo = combo && watcher.Down(keyboard.Key(comboKey))
 					}
 					if combo && !wait {
-						log.WithField("Keys", h.Keys).Debug("COMBO")
+						log.WithFields(log.Fields{"Keys": h.Hotkeys, "Comment": h.Comment}).Debug("Combo")
 						wait = true
-						go h.Callback(k)
+						go callback(k, h)
 					}
 				}
 			}
 
 			// if the state of key is released
 			if e.KeyRelease() {
-				log.Debug("[event] release key ", e.KeyString())
+				log.WithField("Key", e.KeyString()).Debug("[event] release key")
 
 				watcher.SetState(key, keyboard.Up)
 			}
@@ -72,32 +90,8 @@ func main() {
 	}
 }
 
-func printInfo(handlers []Handler) {
-	for _, h := range handlers {
-		log.WithField("Key", h.Keys).Info(h.Comment)
-	}
-}
-
-func write(k *keylogger.KeyLogger, keys []string) {
-	for _, key := range keys {
-		// write once will simulate keyboard press/release, for long press or release, lookup at Write
-		err := k.WriteOnce(key)
-		if err != nil {
-			log.Error(err)
-		}
-	}
-}
-
-func writePress(k *keylogger.KeyLogger, key string) {
-	err := k.Write(keylogger.KeyPress, key)
-	if err != nil {
-		log.WithField("key", key).Warn("writePress", err)
-	}
-}
-
-func writeRelease(k *keylogger.KeyLogger, key string) {
-	err := k.Write(keylogger.KeyRelease, key)
-	if err != nil {
-		log.WithField("key", key).Warn("writeRelease", err)
+func printInfo(options []config.PhraseOptions) {
+	for _, h := range options {
+		log.WithField("Hotkey", h.Hotkeys).Info(h.Comment)
 	}
 }
